@@ -22,13 +22,17 @@ public class TwilioSmsSender implements SmsSender {
     @Override
     public void sendSms(SMS smsRequest) {
 
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+
         PhoneNumber to = new PhoneNumber(smsRequest.getPhoneNumber());
         PhoneNumber from = new PhoneNumber(twConfiguration.getTrialNumber());
-        String message = smsRequest.getMessage();
+        String message = smsRequest.getMessage()+" \n"+formatter.format(calendar.getTime()) ;
 
         MessageCreator creator = Message.creator(to, from, message);
         creator.create();
-        LOGGER.info("Send sms {}", smsRequest);
+        LOGGER.info("Send sms {}" , smsRequest+formatter.format(calendar.getTime()));
 
     }
 }
